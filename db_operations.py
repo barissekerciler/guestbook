@@ -18,7 +18,7 @@ class DbOperations(object):
         try:
             db = pymysql.connect(host=os.environ.get('MYSQLHOST'), user=os.environ.get('MYSQLUSERNAME'),
                                  passwd=os.environ.get('MYSQLPASSWORD'),
-                                 db=os.environ.get('MYSQLDB'), port=os.environ.get('MYSQLPORT'))
+                                 db=os.environ.get('MYSQLDB'), port=int(os.environ.get('MYSQLPORT')))
             cursor = db.cursor()
             cursor.execute(
                 "INSERT INTO messages(username, message) VALUES('{username}', '{message}')".format(username=username,
