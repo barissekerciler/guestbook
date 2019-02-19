@@ -16,8 +16,7 @@ def insert_data():
         db_.insert_message_to_db(request.form['username'], request.form['message'])
         return render_template('index.html', data=db_.get_data())
     if request.method == 'GET':
-        #return jsonify(result=db_.get_data())
-        return render_template('index.html', data=db_.get_data())
+        return render_template('index.html', data=reversed(db_.get_data()))
 
 
 @app.route('/health', methods=['GET'])
