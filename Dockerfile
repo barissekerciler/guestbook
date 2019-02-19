@@ -1,4 +1,4 @@
-FROM python:3.7.2-alpine3.9
+FROM python:3
 WORKDIR /app
 COPY . /app
 ENV MYSQLHOST=localhost
@@ -9,6 +9,5 @@ ENV MYSQLPORT=3306
 ENV APPHOST=0.0.0.0
 ENV APPPORT=5000
 ENV APPDEBUG=False
-RUN apk add mariadb-dev gcc python3-dev libc-dev
 RUN pip install -r requirements.txt
 CMD ["python", "app.py" ]
