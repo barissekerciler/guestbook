@@ -4,8 +4,9 @@ import os
 
 class DbOperations(object):
     def __init__(self):
-        self.db = pymysql.connect(os.environ.get('DBHOST'), os.environ.get('DBUSERNAME'), os.environ.get('DBPASSWORD'),
-                                  os.environ.get('DB'))
+        self.db = pymysql.connect(os.environ.get('MYSQLHOST'), os.environ.get('MYSQLUSERNAME'),
+                                  os.environ.get('MYSQLPASSWORD'),
+                                  os.environ.get('MYSQLDB'))
         self.cursor = self.db.cursor()
 
     def __close_connections(self):

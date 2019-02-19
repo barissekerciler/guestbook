@@ -3,6 +3,7 @@ from flask import request
 from flask import jsonify
 from db_operations import DbOperations
 from flask_cors import CORS
+import os
 
 app = Flask(__name__)
 CORS(app)
@@ -18,4 +19,4 @@ def insert_data():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(host=os.environ.get('APPHOST'), port=os.environ.get('APPPORT'), debug=os.environ.get('APPDEBUG'))
