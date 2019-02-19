@@ -12,7 +12,6 @@ CORS(app)
 def insert_data():
     db_ = DbOperations()
     if request.method == 'POST':
-        print(request.form['username'], request.form['message'])
         db_.insert_message_to_db(request.form['username'], request.form['message'])
         return render_template('index.html', data=db_.get_data())
     if request.method == 'GET':
