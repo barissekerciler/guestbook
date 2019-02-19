@@ -3,15 +3,9 @@ import os
 
 
 class DbOperations(object):
-    def __init__(self):
-        self.db = pymysql.connect(os.environ.get('MYSQLHOST'), os.environ.get('MYSQLUSERNAME'),
-                                  os.environ.get('MYSQLPASSWORD'),
-                                  os.environ.get('MYSQLDB'))
-        self.cursor = self.db.cursor()
-
-    def __close_connections(self):
-        self.db.commit()
-        self.db.close()
+    db = pymysql.connect(os.environ.get('MYSQLHOST'), os.environ.get('MYSQLUSERNAME'),
+                         os.environ.get('MYSQLPASSWORD'),
+                         os.environ.get('MYSQLDB'))
 
     @staticmethod
     def query_response_normalizer(columns, payload):
@@ -22,27 +16,39 @@ class DbOperations(object):
 
     def insert_message_to_db(self, username, message):
         try:
-            self.cursor.execute(
+            db = pymysql.connect(os.environ.get('MYSQLHOST'), os.environ.get('MYSQLUSERNAME'),
+                                 os.environ.get('MYSQLPASSWORD'),
+                                 os.environ.get('MYSQLDB'))
+            cursor = db.cursor()
+            cursor.execute(
                 "INSERT INTO messages(username, message) VALUES('{username}', '{message}')".format(username=username,
                                                                                                    message=message))
 
-            self.cursor.execute('SELECT last_insert_id()')
-            last_id = self.cursor.fetchone()
-            self.cursor.execute(
+            cursor.execute('SELECT last_insert_id()')
+            last_id = cursor.fetchone()
+            cursor.execute(
                 "SELECT username, message FROM messages WHERE message_id = '{last_id}'".format(last_id=last_id[0]))
-            columns = [column[0] for column in self.cursor.description]
-            payload = self.cursor.fetchall()
-            self.__close_connections()
+            columns = [column[0] for column in cursor.description]
+            payload = cursor.fetchall()
+            cursor.close()
+            db.commit()
+            db.close()
             return self.query_response_normalizer(columns, payload)
-        except pymysql.err:
+        except Exception('could not insert'):
             raise
 
     def get_data(self):
         try:
-            self.cursor.execute('SELECT username, message FROM messages LIMIT 50')
-            columns = [column[0] for column in self.cursor.description]
-            payload = self.cursor.fetchall()
-            self.__close_connections()
+            db = pymysql.connect(os.environ.get('MYSQLHOST'), os.environ.get('MYSQLUSERNAME'),
+                                 os.environ.get('MYSQLPASSWORD'),
+                                 os.environ.get('MYSQLDB'))
+            cursor = db.cursor()
+            cursor.execute('SELECT username, message FROM messages LIMIT 50')
+            columns = [column[0] for column in cursor.description]
+            payload = cursor.fetchall()
+            cursor.close()
+            db.commit()
+            db.close()
             return self.query_response_normalizer(columns, payload)
-        except pymysql.err:
+        except Exception('could not get'):
             raise
