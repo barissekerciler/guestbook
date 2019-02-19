@@ -3,10 +3,6 @@ import os
 
 
 class DbOperations(object):
-    db = pymysql.connect(os.environ.get('MYSQLHOST'), os.environ.get('MYSQLUSERNAME'),
-                         os.environ.get('MYSQLPASSWORD'),
-                         os.environ.get('MYSQLDB'))
-
     @staticmethod
     def query_response_normalizer(columns, payload):
         normalized_result = list()
