@@ -9,7 +9,7 @@ app = Flask(__name__)
 CORS(app)
 
 
-@app.route('/guest', methods=['POST', 'GET'])
+@app.route('/', methods=['POST', 'GET'])
 def insert_data():
     db_ = DbOperations()
     if request.method == 'POST':
