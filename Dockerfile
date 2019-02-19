@@ -6,4 +6,4 @@ ENV MYSQLUSERNAME=dev
 ENV MYSQLPASSWORD=dev123
 ENV MYSQLDB=dev
 RUN pip install -r requirements.txt
-CMD [ "app.py" ]
+CMD ["python", "app.py" ]
