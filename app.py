@@ -1,4 +1,4 @@
-from flask import Flask, request, jsonify, render_template, Response
+from flask import Flask, request, render_template, Response
 from db_operations import DbOperations
 from flask_cors import CORS
 import os
